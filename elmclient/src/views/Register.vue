@@ -89,10 +89,10 @@ export default {
     },
     methods: {
         checkUserId() {
-            this.$axios
-                .get(`users/${userId}`)
+            let url =`http://localhost:10100/UserController/getUserById/${this.user.userId}`;
+            this.$axios.get(url)
                 .then((response) => {
-                    if (response.data == 1) {
+                    if (response.data.result == 1) {
                         this.user.userId = "";
                         alert("此手机号码已存在！");
                     }
@@ -123,13 +123,10 @@ export default {
                 return;
             }
             //注册请求
-            var data = {
-                user: this.user,
-            };
-            this.$axios
-                .post(`users/add`, data)
+            let url =`http://localhost:10100/UserController/saveUser/${this.user.userId}/${this.user.password}/${this.user.userName}/${this.user.userSex}`;
+            this.$axios.post(url)
                 .then((response) => {
-                    if (response.data > 0) {
+                    if (response.data.result > 0) {
                         alert("注册成功！");
                         this.$router.go(-1);
                     } else {

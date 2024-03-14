@@ -38,8 +38,8 @@
     </div>
 </template>
 <script>
-	import Footer from '../components/Footer.vue';
 	import JSEncrypt from 'jsencrypt';
+import Footer from '../components/Footer.vue';
 
 	export default {
 		name: 'Login',
@@ -67,13 +67,9 @@
 				}
 
 				// 登录请求
-				this.$axios.get(`users/user`, {
-                    params:{
-                        userId: this.userId,
-					    password: this.encryptData(this.password, "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAKUoTFDPcJMwZXkNLutrvokZW5xQz/ytpQJVQTELpy4113P/e5Csg8OUQ6QPoeoQITw5Gjn2tGC4JUGIxIRHzDMCAwEAAQ==")
-                    }
-                }).then(response => {
-					let user = response.data[0];
+                let url =`http://localhost:10100/UserController/getUserByIdByPass/${this.userId}/${this.password}`;
+				this.$axios.get(url).then(response => {
+					let user = response.data.result;
 					if (user == null) {
 						alert('用户名或密码不正确！');
 					} else {
